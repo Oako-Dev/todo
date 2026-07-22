@@ -1,0 +1,14 @@
+{
+    "name": "api",
+    "type": "module",
+    "dependencies": {
+        "aws-sdk": "2.1524.0",
+        "sst": "3.17.14"
+    },
+    "devDependencies": {
+        "@tsconfig/node20": "20.1.4",
+        "@types/aws-lambda": "8.10.152",
+        "@types/aws-sdk": "2.7.4",
+        "@types/node": "20.9.3"
+    }
+}

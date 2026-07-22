@@ -1,0 +1,17 @@
+{
+    "name": "todo",
+    "private": true,
+    "scripts": {
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "sst": "3.17.14"
+    },
+    "devDependencies": {
+        "prettier": "3.1.0",
+        "prettier-plugin-organize-imports": "3.2.4"
+    },
+    "workspaces": [
+        "packages/*"
+    ]
+}

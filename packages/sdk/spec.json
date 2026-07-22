@@ -1,0 +1,112 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TODO API",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "https://api.todo.daytonellwanger.com"
+        }
+    ],
+    "paths": {
+        "/todos/{id}": {
+            "get": {
+                "summary": "Gets the TODO list.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the TODO list."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched TODO list.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoList"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "TODO list not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Updates the TODO list.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the TODO list."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoList"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated TODO list.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TodoListItem": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    },
+                    "completed": {
+                        "type": "boolean"
+                    }
+                },
+                "required": ["text", "completed"]
+            },
+            "TodoList": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TodoListItem"
+                        }
+                    }
+                },
+                "required": ["id", "list"]
+            }
+        }
+    }
+}

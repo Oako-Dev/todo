@@ -1,0 +1,16 @@
+{
+    "name": "sdk",
+    "version": "0.0.0",
+    "type": "module",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "prepare": "tsc",
+        "generate": "bunx openapi-generator-cli generate -i ./spec.json -g typescript-fetch -o ./ --additional-properties=importFileExtension=.js && cd .. && bun run format"
+    },
+    "devDependencies": {
+        "@openapitools/openapi-generator-cli": "^2.9.0",
+        "@types/node": "^20.9.3",
+        "typescript": "5.3.3"
+    }
+}
