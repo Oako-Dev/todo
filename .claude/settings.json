@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+        "oako": {
+            "command": "npx",
+            "args": ["-y", "@oako/mcp"]
+        }
+    }
+}

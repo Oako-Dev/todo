@@ -1,0 +1,10 @@
+{
+    "exclude": [
+        "packages/sdk/",
+        "!packages/sdk/spec.json",
+        "!packages/sdk/package.json",
+        "!packages/sdk/tsconfig.json",
+        "sst-env.d.ts",
+        "bun.lock"
+    ]
+}

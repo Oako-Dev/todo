@@ -1,0 +1,179 @@
+{
+  "meta/architecture/conventions/overview.md": {
+    "description": "Recurring patterns and conventions used throughout the codebase, such as error handling and logging."
+  },
+  "meta/architecture/data-flow/overview.md": {
+    "description": "How data moves through the system, from entry points to exit points."
+  },
+  "meta/architecture/data-model/overview.md": {
+    "description": "The core entities the system operates on, their attributes, and their relationships."
+  },
+  "meta/architecture/limitations/overview.md": {
+    "description": "Known gaps, scaling ceilings, and areas of technical debt in the system."
+  },
+  "meta/architecture/overview.md": {
+    "description": "How the system is decomposed into major components, their boundaries, and how they relate to each other."
+  },
+  "meta/dependencies/overview.md": {
+    "description": "External systems, services, and dependencies the product relies on and how they interact."
+  },
+  "meta/deployment/overview.md": {
+    "description": "Process and environments for deploying code through development stages to production."
+  },
+  "meta/dev/build.md": {
+    "description": "Instructions for compiling and bundling the codebase into runnable artifacts."
+  },
+  "meta/dev/setup.md": {
+    "description": "Instructions for preparing a development environment and installing required tools and dependencies."
+  },
+  "meta/glossary.md": {
+    "description": "Domain and system vocabulary with definitions for precise terminology and jargon."
+  },
+  "meta/overview.md": {
+    "description": "High-level overview of what the system does, the problems it solves, and its intended users."
+  },
+  "meta/platform.md": {
+    "description": "Definition of the platform type and platform-specific constraints or development conventions."
+  },
+  "meta/security/security-model.md": {
+    "description": "Explanation of authentication, authorization, trust boundaries, and data protection mechanisms."
+  },
+  "meta/tech/overview.md": {
+    "description": "Key technologies and architectural patterns used in the product and their significance."
+  },
+  "meta/architecture/conventions/": {
+    "description": "Recurring patterns and conventions used throughout the codebase."
+  },
+  "meta/architecture/data-flow/": {
+    "description": "How data moves through the system."
+  },
+  "meta/architecture/data-model/": {
+    "description": "The core entities the system operates on and their relationships."
+  },
+  "meta/architecture/limitations/": {
+    "description": "Known gaps and areas of technical debt in the system."
+  },
+  "meta/architecture/": {
+    "description": "How the system is decomposed into components, its data model, data flow, conventions, and architectural decisions."
+  },
+  "meta/dependencies/": {
+    "description": "External systems, services, and dependencies the product relies on and how they interact."
+  },
+  "meta/deployment/": {
+    "description": "Process and environments for deploying code through development stages to production."
+  },
+  "meta/dev/": {
+    "description": "Development environment setup, build processes, and testing instructions."
+  },
+  "meta/security/": {
+    "description": "Security models covering authentication, authorization, trust boundaries, and data protection mechanisms."
+  },
+  "meta/tech/": {
+    "description": "Key technologies and architectural patterns used in the product and their significance."
+  },
+  "meta/": {
+    "description": "Centralized documentation and metadata hub covering system context, technical architecture, operations, security, business strategy, product roadmap, and user-facing guidance."
+  },
+  "package.json": {
+    "description": "Root monorepo package configuration using Bun with workspaces, SST framework, and Prettier code formatter."
+  },
+  ".gitignore": {
+    "description": "Git ignore rules excluding node_modules, dist build artifacts, .sst framework directory, and macOS system files."
+  },
+  ".prettierrc.json": {
+    "description": "Prettier code formatter configuration with 4-space tabs, single quotes, and automatic import organization."
+  },
+  "sst.config.ts": {
+    "description": "SST deployment orchestration file defining dev and prod stages, AWS account validation, and infrastructure component initialization."
+  },
+  "packages/infrastructure/package.json": {
+    "description": "Infrastructure deployment package containing AWS SDK, TypeScript types for Lambda and Node.js, and production deploy script."
+  },
+  "packages/infrastructure/tsconfig.json": {
+    "description": "Empty TypeScript configuration file using default settings."
+  },
+  "packages/infrastructure/.gitignore": {
+    "description": "Git ignore excluding config.ts which contains sensitive deployment configuration and AWS account credentials."
+  },
+  "packages/infrastructure/components/storage.ts": {
+    "description": "SST component creating DynamoDB Todos table with string id as primary key for data persistence."
+  },
+  "packages/infrastructure/components/api.ts": {
+    "description": "SST component creating API Gateway v2 with PUT and GET endpoints for todo operations, linked to DynamoDB and custom domain."
+  },
+  "packages/infrastructure/components/webApp.ts": {
+    "description": "SST component creating static site deployment for web app built with Bun, served from S3/CloudFront with custom domain routing."
+  },
+  "packages/api/package.json": {
+    "description": "API package configuration with AWS SDK v2 and SST v3 dependencies for Lambda handlers"
+  },
+  "packages/api/tsconfig.json": {
+    "description": "TypeScript configuration for API package targeting Node 20 and ES2022"
+  },
+  "packages/api/src/getTodoList.ts": {
+    "description": "Lambda handler for GET /todos/{id} endpoint; retrieves a todo from DynamoDB by id"
+  },
+  "packages/api/src/putTodoList.ts": {
+    "description": "Lambda handler for PUT /todos/{id} endpoint; updates or creates a todo in DynamoDB with request body data"
+  },
+  "packages/web-app/package.json": {
+    "description": "React web application configuration with dependencies for React 18, React Router 7, Vite, Tailwind CSS, and TypeScript"
+  },
+  "packages/web-app/tsconfig.json": {
+    "description": "TypeScript configuration for React web app targeting ES2020 with strict mode and JSX support"
+  },
+  "packages/web-app/vite.config.ts": {
+    "description": "Vite build tool configuration with React plugin for web app bundling"
+  },
+  "packages/web-app/tailwind.config.ts": {
+    "description": "Tailwind CSS configuration with comprehensive design system including semantic color tokens, spacing scales, and typography"
+  },
+  "packages/web-app/postcss.config.js": {
+    "description": "PostCSS configuration enabling Tailwind CSS and autoprefixer for CSS processing"
+  },
+  "packages/web-app/index.html": {
+    "description": "HTML entry point for single-page React application; loads fonts and mounts React root component"
+  },
+  "packages/web-app/src/main.tsx": {
+    "description": "Entry point that initializes React, ReactDOM, React Router with routes (/ and /todos/:id), and imports global CSS tokens and styles."
+  },
+  "packages/web-app/src/styles/tokens.css": {
+    "description": "Design system CSS custom properties defining color ramps (ink, slate, gray, status colors), typography scale, fonts, spacing, border radius, shadows, and semantic color aliases for theming."
+  },
+  "packages/web-app/src/styles/index.css": {
+    "description": "Global Tailwind CSS base styles including smooth scrolling, reduced motion preferences, base body/element styling, and focus indicators for accessibility."
+  },
+  "packages/web-app/src/App.tsx": {
+    "description": "Main todo list component that fetches a specific list from the API, allows users to add/edit/remove/toggle items, and persists changes with optimistic updates and error handling."
+  },
+  "packages/web-app/src/Home.tsx": {
+    "description": "Landing page component that displays a preview of the todo list UI and provides a button to create a new todo list."
+  },
+  "packages/web-app/src/util.ts": {
+    "description": "Utility module that generates random 16-character list IDs and creates new todo lists via the API."
+  },
+  "packages/web-app/src/styles/": {
+    "description": "Design system tokens and global Tailwind CSS base styles for the web application."
+  },
+  "packages/infrastructure/components/": {
+    "description": "SST infrastructure components defining cloud resources for storage, API, and web app deployment."
+  },
+  "packages/api/src/": {
+    "description": "Lambda handlers implementing todo API endpoints."
+  },
+  "packages/web-app/src/": {
+    "description": "React web application with components, routing, utilities, and design system."
+  },
+  "packages/infrastructure/": {
+    "description": "Infrastructure-as-code for AWS resources including storage, API, and web deployment using the SST framework."
+  },
+  "packages/api/": {
+    "description": "Lambda functions implementing backend API endpoints for the todo application."
+  },
+  "packages/web-app/": {
+    "description": "Frontend React application built with Vite bundling, Tailwind CSS styling, and client-side routing."
+  },
+  "packages/": {
+    "description": "Monorepo containing packages for infrastructure-as-code, backend API, and frontend web application."
+  }
+}
