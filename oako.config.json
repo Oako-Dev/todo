@@ -1,0 +1,8 @@
+{
+    "exclude": [
+        "packages/sdk/",
+        "!packages/sdk/spec.json",
+        "!packages/sdk/package.json",
+        "sst-env.d.ts"
+    ]
+}
