@@ -1,0 +1,1 @@
+Use the `describe-directory` tool from the `oako` MCP server instead of your own file searches, directory listings, or path guesses. Give it a directory and it returns that directory's files with descriptions; call it recursively to explore subdirectories. All project documentation lives in the `meta` directory — start searches there.
