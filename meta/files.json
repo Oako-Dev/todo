@@ -1,0 +1,179 @@
+{
+  "meta/architecture/abstractions/overview.md": {
+    "description": "Shared abstractions and interfaces reused across multiple features of the codebase."
+  },
+  "meta/architecture/conventions/overview.md": {
+    "description": "Recurring patterns and conventions used throughout the codebase, such as error handling and logging."
+  },
+  "meta/architecture/data-flow/overview.md": {
+    "description": "How data moves through the system, from entry points to exit points."
+  },
+  "meta/architecture/data-model/overview.md": {
+    "description": "The core entities the system operates on, their attributes, and their relationships."
+  },
+  "meta/architecture/limitations/overview.md": {
+    "description": "Known gaps, scaling ceilings, and areas of technical debt in the system."
+  },
+  "meta/architecture/overview.md": {
+    "description": "How the system is decomposed into major components, their boundaries, and how they relate to each other."
+  },
+  "meta/dependencies/overview.md": {
+    "description": "External systems, services, and dependencies the product relies on and how they interact."
+  },
+  "meta/deployment/overview.md": {
+    "description": "Process and environments for deploying code through development stages to production."
+  },
+  "meta/dev/build.md": {
+    "description": "Instructions for compiling and bundling the codebase into runnable artifacts."
+  },
+  "meta/dev/setup.md": {
+    "description": "Instructions for preparing a development environment and installing required tools and dependencies."
+  },
+  "meta/glossary.md": {
+    "description": "Domain and system vocabulary with definitions for precise terminology and jargon."
+  },
+  "meta/observability/overview.md": {
+    "description": "Guidelines for system monitoring, logging, metrics, traces, dashboards, and alerting in production environments."
+  },
+  "meta/overview.md": {
+    "description": "High-level overview of what the system does, the problems it solves, and its intended users."
+  },
+  "meta/platform.md": {
+    "description": "Definition of the platform type and platform-specific constraints or development conventions."
+  },
+  "meta/security/security-model.md": {
+    "description": "Explanation of authentication, authorization, trust boundaries, and data protection mechanisms."
+  },
+  "meta/tech/overview.md": {
+    "description": "Key technologies and architectural patterns used in the product and their significance."
+  },
+  "meta/architecture/abstractions/": {
+    "description": "Shared abstractions and interfaces reused across the codebase."
+  },
+  "meta/architecture/conventions/": {
+    "description": "Recurring patterns and conventions used throughout the codebase."
+  },
+  "meta/architecture/data-flow/": {
+    "description": "How data moves through the system."
+  },
+  "meta/architecture/data-model/": {
+    "description": "The core entities the system operates on and their relationships."
+  },
+  "meta/architecture/limitations/": {
+    "description": "Known gaps and areas of technical debt in the system."
+  },
+  "meta/architecture/": {
+    "description": "How the system is decomposed into components, its data model, data flow, conventions, and architectural decisions."
+  },
+  "meta/dependencies/": {
+    "description": "External systems, services, and dependencies the product relies on and how they interact."
+  },
+  "meta/deployment/": {
+    "description": "Process and environments for deploying code through development stages to production."
+  },
+  "meta/dev/": {
+    "description": "Development environment setup and build process instructions."
+  },
+  "meta/observability/": {
+    "description": "Guidelines for system monitoring, logging, metrics, traces, dashboards, and alerting in production."
+  },
+  "meta/security/": {
+    "description": "Security models covering authentication, authorization, trust boundaries, and data protection mechanisms."
+  },
+  "meta/tech/": {
+    "description": "Key technologies and architectural patterns used in the product and their significance."
+  },
+  "meta/": {
+    "description": "Centralized documentation hub covering system overview, glossary, technical architecture, platform constraints, dependencies, deployment, development setup, observability, and security."
+  },
+  "package.json": {
+    "description": "Root monorepo configuration with SST dependency and workspaces definition for packages/*"
+  },
+  "sst.config.ts": {
+    "description": "SST infrastructure configuration that orchestrates deployment to dev/prod stages with AWS account validation and instantiates storage, API, and web app components"
+  },
+  "packages/infrastructure/package.json": {
+    "description": "Infrastructure package with AWS SDK dependencies and production deployment script"
+  },
+  "packages/infrastructure/components/storage.ts": {
+    "description": "Creates a DynamoDB table named \"Todos\" for storing todo list data indexed by ID"
+  },
+  "packages/infrastructure/components/api.ts": {
+    "description": "Creates API Gateway V2 with PUT and GET endpoints for todo list operations linked to the Todos table"
+  },
+  "packages/infrastructure/components/webApp.ts": {
+    "description": "Creates a static site deployment on S3/CloudFront for the web app built from packages/web-app with Bun"
+  },
+  "packages/api/package.json": {
+    "description": "Dependencies for API Lambda handlers including AWS SDK 2, SST framework, and TypeScript types for AWS Lambda."
+  },
+  "packages/api/tsconfig.json": {
+    "description": "TypeScript compiler configuration for Node.js 20 with ES2022 target and ESNext module format."
+  },
+  "packages/api/src/getTodoList.ts": {
+    "description": "Lambda handler for the GET /todos/{id} endpoint that retrieves a todo list from DynamoDB by ID, returning 400 if ID is missing or 404 if not found."
+  },
+  "packages/api/src/putTodoList.ts": {
+    "description": "Lambda handler for the PUT /todos/{id} endpoint that stores or updates a todo list in DynamoDB, validating the presence of ID and request body."
+  },
+  "packages/web-app/package.json": {
+    "description": "Dependencies for the React web app including React 18, React Router 7, Vite 5 build tool, TailwindCSS, and TypeScript."
+  },
+  "packages/web-app/tsconfig.json": {
+    "description": "TypeScript configuration for React with ES2020 target, strict mode, and JSX support via React 18's automatic JSX transform."
+  },
+  "packages/web-app/vite.config.ts": {
+    "description": "Vite bundler configuration with React plugin for JSX transformation and fast module resolution."
+  },
+  "packages/web-app/tailwind.config.ts": {
+    "description": "TailwindCSS configuration extending default theme with custom design system colors (canvas, surface, ink, accent, secondary, status colors) and typography via CSS custom properties."
+  },
+  "packages/web-app/postcss.config.js": {
+    "description": "PostCSS pipeline with TailwindCSS processor and autoprefixer for vendor-prefixed CSS generation."
+  },
+  "packages/web-app/index.html": {
+    "description": "HTML entry point for the React application that imports Google Fonts (Inter, JetBrains Mono) and defines global styles including a pulse animation keyframe."
+  },
+  "packages/web-app/src/main.tsx": {
+    "description": "React application entry point with BrowserRouter and route configuration for home and todo list editor pages."
+  },
+  "packages/web-app/src/App.tsx": {
+    "description": "Todo list editor component with CRUD operations (add, toggle, delete items) and optimistic UI updates with rollback on error."
+  },
+  "packages/web-app/src/Home.tsx": {
+    "description": "Landing page component with marketing copy, todo list preview illustration, and button to create a new list."
+  },
+  "packages/web-app/src/util.ts": {
+    "description": "Utility functions for creating new todo lists with client-generated 16-character random IDs."
+  },
+  "packages/web-app/src/styles/tokens.css": {
+    "description": "Design system tokens defining semantic color ramps, typography scale, spacing values, shadows, and radius values for consistent theming."
+  },
+  "packages/web-app/src/styles/index.css": {
+    "description": "Global Tailwind CSS integration with base layer styles for accessibility (reduced motion), typography, focus states, and responsive behavior."
+  },
+  "packages/web-app/src/styles/": {
+    "description": "Design tokens and global Tailwind CSS base styles defining semantic colors, typography, spacing, and accessibility defaults for consistent theming."
+  },
+  "packages/infrastructure/components/": {
+    "description": "Infrastructure-as-code components defining AWS cloud resources (DynamoDB storage, API Gateway endpoints, and S3/CloudFront web deployment) for the todo application."
+  },
+  "packages/api/src/": {
+    "description": "Lambda handler functions implementing the REST API endpoints for todo list retrieval and storage operations."
+  },
+  "packages/web-app/src/": {
+    "description": "React web application source code with pages, components, utilities, and global styles for the todo list editor."
+  },
+  "packages/infrastructure/": {
+    "description": "Infrastructure-as-code components and configuration for AWS cloud resources (DynamoDB, API Gateway, S3/CloudFront) powering the todo application."
+  },
+  "packages/api/": {
+    "description": "Lambda handler functions implementing REST API endpoints for todo list retrieval and storage operations."
+  },
+  "packages/web-app/": {
+    "description": "React web application with component library, styling system, and pages for the todo list editor."
+  },
+  "packages/": {
+    "description": "Modular application codebase split into infrastructure-as-code, serverless backend API, and React web frontend."
+  }
+}
