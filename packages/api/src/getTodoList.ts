@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { DynamoDB } from 'aws-sdk';
 import { Resource } from 'sst/resource';
+import { verifyPassword } from './password';
 
 const dynamoDb = new DynamoDB.DocumentClient();
 
@@ -25,9 +26,25 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         return { statusCode: 404, body: 'TODO list not found' };
     }
 
+    const { passwordHash, ...item } = result.Item;
+
+    if (passwordHash) {
+        const suppliedPassword = event.headers?.['x-todo-password'];
+        if (
+            !suppliedPassword ||
+            !verifyPassword(suppliedPassword, passwordHash)
+        ) {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isProtected: true }),
+            };
+        }
+    }
+
     return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(result.Item),
+        body: JSON.stringify({ ...item, isProtected: !!passwordHash }),
     };
 };

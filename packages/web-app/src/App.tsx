@@ -1,9 +1,23 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DefaultApi, TodoListItem } from 'sdk';
+import { DefaultApi, InitOverrideFunction, TodoListItem } from 'sdk';
+import {
+    clearStoredPassword,
+    getStoredPassword,
+    setStoredPassword,
+} from './passwordStore';
 import { createNewTodoList } from './util';
 
 const api = new DefaultApi();
+
+function withPasswordHeader(
+    password: string | null,
+): InitOverrideFunction | undefined {
+    if (!password) return undefined;
+    return async ({ init }) => ({
+        headers: { ...init.headers, 'X-Todo-Password': password },
+    });
+}
 
 const inputClass =
     'font-sans text-sm text-ink bg-surface border border-border-strong rounded-sm w-full px-[var(--control-pad-x)] py-[var(--control-pad-y)] transition-[border-color,box-shadow] duration-150 focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-subtle)] placeholder:text-ink-muted';
@@ -36,27 +50,61 @@ export default function App() {
     const [todoList, setTodoList] = useState<TodoListItem[]>([]);
     const [newItemText, setNewItemText] = useState('');
 
-    useEffect(() => {
-        if (!id) return;
+    const [password, setPassword] = useState<string | null>(null);
+    const [isProtected, setIsProtected] = useState(false);
+    const [needsPassword, setNeedsPassword] = useState(false);
+    const [passwordAttempt, setPasswordAttempt] = useState('');
+    const [passwordPromptError, setPasswordPromptError] = useState<
+        string | null
+    >(null);
+    const [showPasswordForm, setShowPasswordForm] = useState(false);
+    const [passwordFormValue, setPasswordFormValue] = useState('');
+    const [settingsSaving, setSettingsSaving] = useState(false);
+    const [settingsError, setSettingsError] = useState<string | null>(null);
 
+    async function loadList(listId: string, pw: string | null) {
         setLoading(true);
         setLoadError(null);
 
-        api.todosIdGet({ id })
-            .then((todo) => {
-                setTodoList(todo.list);
-            })
-            .catch((e) => {
-                if (e.response?.status === 404) {
-                    setLoadError('Could not find this TODO list.');
-                } else {
-                    setLoadError('Failed to load the TODO list.');
+        try {
+            const todo = await api.todosIdGet(
+                { id: listId },
+                withPasswordHeader(pw),
+            );
+            setTodoList(todo.list);
+            setIsProtected(!!todo.isProtected);
+            setPassword(pw);
+            setNeedsPassword(false);
+            setPasswordPromptError(null);
+            if (pw) setStoredPassword(listId, pw);
+        } catch (e: any) {
+            if (e.response?.status === 404) {
+                setLoadError('Could not find this TODO list.');
+            } else if (e.response?.status === 401) {
+                setIsProtected(true);
+                setNeedsPassword(true);
+                if (pw) {
+                    clearStoredPassword(listId);
+                    setPasswordPromptError('Incorrect password.');
                 }
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            } else {
+                setLoadError('Failed to load the TODO list.');
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (!id) return;
+        loadList(id, getStoredPassword(id));
     }, [id]);
+
+    function handlePasswordSubmit(e: FormEvent) {
+        e.preventDefault();
+        if (!id || !passwordAttempt) return;
+        loadList(id, passwordAttempt);
+    }
 
     async function persist(nextList: TodoListItem[]) {
         if (!id) return;
@@ -67,13 +115,16 @@ export default function App() {
         setSaveError(null);
 
         try {
-            await api.todosIdPut({
-                id,
-                todoList: {
+            await api.todosIdPut(
+                {
                     id,
-                    list: nextList,
+                    todoList: {
+                        id,
+                        list: nextList,
+                    },
                 },
-            });
+                withPasswordHeader(password),
+            );
             setTodoList(nextList);
         } catch {
             setTodoList(previousList);
@@ -81,6 +132,52 @@ export default function App() {
         } finally {
             setSaving(false);
         }
+    }
+
+    async function updatePassword(newPasswordValue: string | null) {
+        if (!id) return;
+
+        setSettingsSaving(true);
+        setSettingsError(null);
+
+        try {
+            const result = await api.todosIdPut(
+                {
+                    id,
+                    todoList: {
+                        id,
+                        list: todoList,
+                        password: newPasswordValue,
+                    },
+                },
+                withPasswordHeader(password),
+            );
+            setIsProtected(!!result.isProtected);
+            if (newPasswordValue) {
+                setPassword(newPasswordValue);
+                setStoredPassword(id, newPasswordValue);
+            } else {
+                setPassword(null);
+                clearStoredPassword(id);
+            }
+            setShowPasswordForm(false);
+            setPasswordFormValue('');
+        } catch {
+            setSettingsError('Failed to update password.');
+        } finally {
+            setSettingsSaving(false);
+        }
+    }
+
+    function handlePasswordFormSubmit(e: FormEvent) {
+        e.preventDefault();
+        const value = passwordFormValue.trim();
+        if (!value) return;
+        updatePassword(value);
+    }
+
+    function handleRemovePassword() {
+        updatePassword(null);
     }
 
     function toggleItem(index: number) {
@@ -125,12 +222,120 @@ export default function App() {
         );
     }
 
+    if (needsPassword) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-canvas px-24 py-48">
+                <div className="flex flex-col items-center gap-16 w-[480px] text-center">
+                    <p className="text-sm text-ink m-0">
+                        This list is password protected.
+                    </p>
+                    {passwordPromptError && (
+                        <p className="text-danger-text text-sm m-0">
+                            {passwordPromptError}
+                        </p>
+                    )}
+                    <form
+                        onSubmit={handlePasswordSubmit}
+                        className="flex gap-8 w-full"
+                    >
+                        <input
+                            className={inputClass}
+                            type="password"
+                            placeholder="Enter password…"
+                            value={passwordAttempt}
+                            onChange={(e) => setPasswordAttempt(e.target.value)}
+                            autoFocus
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading || passwordAttempt.length === 0}
+                            className="font-sans text-sm font-medium text-ink-on-accent bg-accent hover:bg-accent-hover active:bg-accent-active disabled:opacity-50 rounded-sm px-[var(--control-pad-x)] py-[var(--control-pad-y)] transition-colors duration-150 shrink-0"
+                        >
+                            Unlock
+                        </button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-canvas px-24 py-48">
             <div className="flex flex-col gap-16 w-[480px]">
-                <h2 className="text-2xl font-semibold text-ink m-0">
-                    Todo list
-                </h2>
+                <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-semibold text-ink m-0">
+                        Todo list
+                    </h2>
+                    <button
+                        type="button"
+                        onClick={() => setShowPasswordForm((s) => !s)}
+                        className="text-sm text-ink-muted hover:text-ink"
+                    >
+                        {isProtected ? '🔒 Protected' : 'Add password'}
+                    </button>
+                </div>
+
+                {showPasswordForm && (
+                    <form
+                        onSubmit={handlePasswordFormSubmit}
+                        className="flex flex-col gap-8 rounded-lg border border-border bg-surface p-16"
+                    >
+                        <label
+                            htmlFor="password-form-input"
+                            className="text-sm text-ink"
+                        >
+                            {isProtected ? 'Change password' : 'Set a password'}
+                        </label>
+                        <input
+                            id="password-form-input"
+                            className={inputClass}
+                            type="password"
+                            placeholder="New password…"
+                            value={passwordFormValue}
+                            onChange={(e) =>
+                                setPasswordFormValue(e.target.value)
+                            }
+                            disabled={settingsSaving}
+                        />
+                        {settingsError && (
+                            <p className="text-danger-text text-sm m-0">
+                                {settingsError}
+                            </p>
+                        )}
+                        <div className="flex gap-8">
+                            <button
+                                type="submit"
+                                disabled={
+                                    settingsSaving ||
+                                    passwordFormValue.trim().length === 0
+                                }
+                                className="font-sans text-sm font-medium text-ink-on-accent bg-accent hover:bg-accent-hover active:bg-accent-active disabled:opacity-50 rounded-sm px-[var(--control-pad-x)] py-[var(--control-pad-y)] transition-colors duration-150"
+                            >
+                                {isProtected
+                                    ? 'Update password'
+                                    : 'Set password'}
+                            </button>
+                            {isProtected && (
+                                <button
+                                    type="button"
+                                    onClick={handleRemovePassword}
+                                    disabled={settingsSaving}
+                                    className="text-sm text-danger-text"
+                                >
+                                    Remove password
+                                </button>
+                            )}
+                            <button
+                                type="button"
+                                onClick={() => setShowPasswordForm(false)}
+                                disabled={settingsSaving}
+                                className="text-sm text-ink-muted"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                )}
 
                 {saveError && (
                     <p className="text-danger-text text-sm m-0">{saveError}</p>

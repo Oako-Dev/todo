@@ -33,6 +33,18 @@ export interface TodoList {
      * @memberof TodoList
      */
     list: Array<TodoListItem>;
+    /**
+     * Whether this list currently has a password set. Only meaningful in responses; ignored if sent in a request.
+     * @type {boolean}
+     * @memberof TodoList
+     */
+    isProtected?: boolean;
+    /**
+     * Only used when updating a list. Set to a non-empty string to protect the list or change its password, to null or an empty string to remove password protection, or omit to leave protection unchanged. Never returned in responses.
+     * @type {string}
+     * @memberof TodoList
+     */
+    password?: string | null;
 }
 
 /**
@@ -58,6 +70,9 @@ export function TodoListFromJSONTyped(
     return {
         id: json['id'],
         list: (json['list'] as Array<any>).map(TodoListItemFromJSON),
+        isProtected:
+            json['isProtected'] == null ? undefined : json['isProtected'],
+        password: json['password'] == null ? undefined : json['password'],
     };
 }
 
@@ -76,5 +91,7 @@ export function TodoListToJSONTyped(
     return {
         id: value['id'],
         list: (value['list'] as Array<any>).map(TodoListItemToJSON),
+        isProtected: value['isProtected'],
+        password: value['password'],
     };
 }

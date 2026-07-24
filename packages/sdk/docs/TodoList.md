@@ -2,10 +2,12 @@
 
 ## Properties
 
-| Name   | Type                                         |
-| ------ | -------------------------------------------- |
-| `id`   | string                                       |
-| `list` | [Array&lt;TodoListItem&gt;](TodoListItem.md) |
+| Name          | Type                                         |
+| ------------- | -------------------------------------------- |
+| `id`          | string                                       |
+| `list`        | [Array&lt;TodoListItem&gt;](TodoListItem.md) |
+| `isProtected` | boolean                                      |
+| `password`    | string                                       |
 
 ## Example
 
@@ -16,6 +18,8 @@ import type { TodoList } from '';
 const example = {
     id: null,
     list: null,
+    isProtected: null,
+    password: null,
 } satisfies TodoList;
 
 console.log(example);

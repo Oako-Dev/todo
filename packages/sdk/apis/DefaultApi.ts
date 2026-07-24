@@ -21,11 +21,13 @@ import * as runtime from '../runtime.js';
 
 export interface TodosIdGetRequest {
     id: string;
+    xTodoPassword?: string;
 }
 
 export interface TodosIdPutRequest {
     id: string;
     todoList: TodoList;
+    xTodoPassword?: string;
 }
 
 /**
@@ -48,6 +50,12 @@ export class DefaultApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTodoPassword'] != null) {
+            headerParameters['X-Todo-Password'] = String(
+                requestParameters['xTodoPassword'],
+            );
+        }
 
         let urlPath = `/todos/{id}`;
         urlPath = urlPath.replace(
@@ -118,6 +126,12 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xTodoPassword'] != null) {
+            headerParameters['X-Todo-Password'] = String(
+                requestParameters['xTodoPassword'],
+            );
+        }
 
         let urlPath = `/todos/{id}`;
         urlPath = urlPath.replace(

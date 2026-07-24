@@ -9,7 +9,7 @@ All URIs are relative to *https://api.todo.daytonellwanger.com*
 
 ## todosIdGet
 
-> TodoList todosIdGet(id)
+> TodoList todosIdGet(id, xTodoPassword)
 
 Gets the TODO list.
 
@@ -26,6 +26,8 @@ async function example() {
     const body = {
         // string | ID of the TODO list.
         id: id_example,
+        // string | Password for accessing a password-protected TODO list. (optional)
+        xTodoPassword: xTodoPassword_example,
     } satisfies TodosIdGetRequest;
 
     try {
@@ -42,9 +44,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name   | Type     | Description          | Notes                     |
-| ------ | -------- | -------------------- | ------------------------- |
-| **id** | `string` | ID of the TODO list. | [Defaults to `undefined`] |
+| Name              | Type     | Description                                            | Notes                                |
+| ----------------- | -------- | ------------------------------------------------------ | ------------------------------------ |
+| **id**            | `string` | ID of the TODO list.                                   | [Defaults to `undefined`]            |
+| **xTodoPassword** | `string` | Password for accessing a password-protected TODO list. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -64,13 +67,14 @@ No authorization required
 | Status code | Description                     | Response headers |
 | ----------- | ------------------------------- | ---------------- |
 | **200**     | Successfully fetched TODO list. | -                |
+| **401**     | Password required or incorrect. | -                |
 | **404**     | TODO list not found.            | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## todosIdPut
 
-> TodoList todosIdPut(id, todoList)
+> TodoList todosIdPut(id, todoList, xTodoPassword)
 
 Updates the TODO list.
 
@@ -92,6 +96,8 @@ async function example() {
     id: id_example,
     // TodoList
     todoList: ...,
+    // string | Password for updating a password-protected TODO list. (optional)
+    xTodoPassword: xTodoPassword_example,
   } satisfies TodosIdPutRequest;
 
   try {
@@ -108,10 +114,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name         | Type                    | Description          | Notes                     |
-| ------------ | ----------------------- | -------------------- | ------------------------- |
-| **id**       | `string`                | ID of the TODO list. | [Defaults to `undefined`] |
-| **todoList** | [TodoList](TodoList.md) |                      |                           |
+| Name              | Type                    | Description                                           | Notes                                |
+| ----------------- | ----------------------- | ----------------------------------------------------- | ------------------------------------ |
+| **id**            | `string`                | ID of the TODO list.                                  | [Defaults to `undefined`]            |
+| **todoList**      | [TodoList](TodoList.md) |                                                       |                                      |
+| **xTodoPassword** | `string`                | Password for updating a password-protected TODO list. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -131,5 +138,6 @@ No authorization required
 | Status code | Description                     | Response headers |
 | ----------- | ------------------------------- | ---------------- |
 | **200**     | Successfully updated TODO list. | -                |
+| **401**     | Password required or incorrect. | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

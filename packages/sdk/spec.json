@@ -22,6 +22,15 @@
                         },
                         "required": true,
                         "description": "ID of the TODO list."
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Todo-Password",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "description": "Password for accessing a password-protected TODO list."
                     }
                 ],
                 "responses": {
@@ -31,6 +40,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TodoList"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Password required or incorrect.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PasswordRequiredError"
                                 }
                             }
                         }
@@ -51,6 +70,15 @@
                         },
                         "required": true,
                         "description": "ID of the TODO list."
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Todo-Password",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "description": "Password for updating a password-protected TODO list."
                     }
                 ],
                 "requestBody": {
@@ -70,6 +98,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TodoList"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Password required or incorrect.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PasswordRequiredError"
                                 }
                             }
                         }
@@ -103,9 +141,27 @@
                         "items": {
                             "$ref": "#/components/schemas/TodoListItem"
                         }
+                    },
+                    "isProtected": {
+                        "type": "boolean",
+                        "description": "Whether this list currently has a password set. Only meaningful in responses; ignored if sent in a request."
+                    },
+                    "password": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Only used when updating a list. Set to a non-empty string to protect the list or change its password, to null or an empty string to remove password protection, or omit to leave protection unchanged. Never returned in responses."
                     }
                 },
                 "required": ["id", "list"]
+            },
+            "PasswordRequiredError": {
+                "type": "object",
+                "properties": {
+                    "isProtected": {
+                        "type": "boolean"
+                    }
+                },
+                "required": ["isProtected"]
             }
         }
     }
