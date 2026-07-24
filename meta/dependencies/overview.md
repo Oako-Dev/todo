@@ -16,12 +16,12 @@ The system runs entirely on AWS infrastructure. The dev and prod deployment stag
 
 ### Services Used
 
-- **DynamoDB**: Stores todo list data with ID-based primary key indexing
-- **API Gateway V2**: Routes HTTP requests to backend Lambda handlers for todo list operations (PUT and GET)
-- **Lambda**: Runs the API handlers as serverless functions
-- **S3 + CloudFront**: Hosts and caches the static React web app frontend
-- **Route 53**: Manages DNS with hosted zones for environment-specific domains (primary apex domain for prod, `{stage}.{apex}` for dev)
-- **IAM**: Provides authentication and authorization for AWS resource access during deployment and runtime
+-   **DynamoDB**: Stores todo list data with ID-based primary key indexing
+-   **API Gateway V2**: Routes HTTP requests to backend Lambda handlers for todo list operations (PUT and GET)
+-   **Lambda**: Runs the API handlers as serverless functions
+-   **S3 + CloudFront**: Hosts and caches the static React web app frontend
+-   **Route 53**: Manages DNS with hosted zones for environment-specific domains (primary apex domain for prod, `{stage}.{apex}` for dev)
+-   **IAM**: Provides authentication and authorization for AWS resource access during deployment and runtime
 
 ### Infrastructure as Code
 

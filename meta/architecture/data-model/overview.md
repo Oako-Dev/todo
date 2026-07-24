@@ -15,8 +15,9 @@ If it is a term definition rather than an entity with attributes and relationshi
 A todo list is a collection of tasks identified by a unique ID. Each list is independent and can be retrieved or updated via the API.
 
 **Attributes:**
-- `id` (string, required): Unique identifier for the todo list
-- `list` (array of TodoListItem, required): The items in the todo list
+
+-   `id` (string, required): Unique identifier for the todo list
+-   `list` (array of TodoListItem, required): The items in the todo list
 
 **Storage:**
 Todo lists are stored in DynamoDB in the "Todos" table, keyed by ID for efficient lookup and update of individual lists.
@@ -26,5 +27,6 @@ Todo lists are stored in DynamoDB in the "Todos" table, keyed by ID for efficien
 A single task within a todo list. Items track completion status and task text.
 
 **Attributes:**
-- `text` (string, required): The text content describing the task
-- `completed` (boolean, required): Whether the task has been completed
+
+-   `text` (string, required): The text content describing the task
+-   `completed` (boolean, required): Whether the task has been completed

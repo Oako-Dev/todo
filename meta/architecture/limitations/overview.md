@@ -16,11 +16,11 @@ If there is a plan to address the limitation, also note it in [roadmap/](../../r
 
 The API handlers do not validate incoming requests:
 
-- `putTodoList.ts` calls `JSON.parse(event.body)` without a try-catch block, so malformed JSON causes an unhandled error
-- Neither handler validates the structure of todo list data (e.g., that items have `text` and `completed` fields)
-- Neither handler validates the ID format or length
-- There are no length limits on todo item text or collection size
-- Invalid data can be stored without detection
+-   `putTodoList.ts` calls `JSON.parse(event.body)` without a try-catch block, so malformed JSON causes an unhandled error
+-   Neither handler validates the structure of todo list data (e.g., that items have `text` and `completed` fields)
+-   Neither handler validates the ID format or length
+-   There are no length limits on todo item text or collection size
+-   Invalid data can be stored without detection
 
 This is a gap in both security and stability. A systematic input validation layer would prevent malformed data from being stored and improve error messages for clients.
 

@@ -17,19 +17,24 @@ If it describes a specific technology, consult [tech/](../tech/overview.md) to s
 The system follows a client-server architecture deployed on AWS with three main components:
 
 ### Web App (`packages/web-app`)
+
 A static site frontend that provides the user interface. Built with React and Vite and deployed to S3 with CloudFront caching. It calls the API to fetch and update todo list data.
 
 ### API (`packages/api`)
+
 Backend API handlers that process HTTP requests from the web app. Hosted on API Gateway V2 with the following endpoints:
-- `PUT /todos/{id}` — Update a todo list
-- `GET /todos/{id}` — Retrieve a todo list
+
+-   `PUT /todos/{id}` — Update a todo list
+-   `GET /todos/{id}` — Retrieve a todo list
 
 ### Storage (`packages/infrastructure/components/storage.ts`)
+
 A DynamoDB table named "Todos" that persists todo list data, keyed by ID.
 
 ## Monorepo Structure
 
 The project uses a Bun monorepo with workspaces to organize code:
-- `packages/infrastructure/` — Infrastructure as Code (SST configuration and component definitions)
-- `packages/api/` — Lambda function handlers for API endpoints
-- `packages/web-app/` — Frontend web application source
+
+-   `packages/infrastructure/` — Infrastructure as Code (SST configuration and component definitions)
+-   `packages/api/` — Lambda function handlers for API endpoints
+-   `packages/web-app/` — Frontend web application source

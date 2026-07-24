@@ -23,17 +23,19 @@ If it describes a regulatory compliance requirement rather than a security mecha
 
 **Design Rationale:** This is an intentional design choice to support shareable links as the primary access model. Todo lists are identified only by their ID and have no ownership metadata. A list is accessed by anyone with its ID — similar to an unlisted document shared via a direct link. This model sacrifices user-level access control for simplicity and immediate shareability.
 
-**Implications:** 
-- Lists are not private by default; anyone with the ID can view and edit
-- There is no way to revoke access to a specific list
-- Lists cannot be deleted (they persist indefinitely if the ID is known)
-- There is no audit trail of who modified a list
+**Implications:**
+
+-   Lists are not private by default; anyone with the ID can view and edit
+-   There is no way to revoke access to a specific list
+-   Lists cannot be deleted (they persist indefinitely if the ID is known)
+-   There is no audit trail of who modified a list
 
 ## Trust Boundaries
 
 The system operates with minimal trust boundaries:
-- **Trusted:** The AWS environment and infrastructure (credentials are validated by AWS IAM)
-- **Untrusted:** All API requests from clients; requests may come from any origin and may contain malicious data
+
+-   **Trusted:** The AWS environment and infrastructure (credentials are validated by AWS IAM)
+-   **Untrusted:** All API requests from clients; requests may come from any origin and may contain malicious data
 
 There is no CORS (Cross-Origin Resource Sharing) configuration explicitly defined, so browser enforcement of cross-origin policies depends on API Gateway defaults. Clients not subject to browser CORS (e.g., curl, mobile apps, server-side requests) can access the API freely if they have a valid ID.
 

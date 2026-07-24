@@ -15,21 +15,25 @@ If it describes the deployment process, consult [deployment/](../deployment/over
 The system currently has minimal observability infrastructure:
 
 **Logging:**
-- API Lambda handlers do not include structured logging calls
-- Errors are logged automatically by AWS Lambda to CloudWatch (including unhandled exceptions)
-- No application-level request/response logging
+
+-   API Lambda handlers do not include structured logging calls
+-   Errors are logged automatically by AWS Lambda to CloudWatch (including unhandled exceptions)
+-   No application-level request/response logging
 
 **Metrics and Dashboards:**
-- No custom metrics are emitted from the application
-- CloudWatch automatically collects Lambda invocation metrics (duration, error count, throttles) but no dashboards have been created to visualize them
-- No API-level metrics (latency, throughput, error rates by endpoint) are tracked
+
+-   No custom metrics are emitted from the application
+-   CloudWatch automatically collects Lambda invocation metrics (duration, error count, throttles) but no dashboards have been created to visualize them
+-   No API-level metrics (latency, throughput, error rates by endpoint) are tracked
 
 **Traces and Correlation:**
-- No distributed tracing (X-Ray or similar) is configured
-- No request correlation IDs or trace contexts are propagated
+
+-   No distributed tracing (X-Ray or similar) is configured
+-   No request correlation IDs or trace contexts are propagated
 
 **Alerting:**
-- No CloudWatch alarms or alerting rules are configured
-- Errors and performance issues are not actively monitored in production
+
+-   No CloudWatch alarms or alerting rules are configured
+-   Errors and performance issues are not actively monitored in production
 
 This minimal setup is acceptable for a low-volume application but would need enhancement before scaling to higher request volumes or adding production SLAs.

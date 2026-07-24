@@ -16,15 +16,15 @@ If it describes how to build the code prior to deployment, consult [dev/build](.
 
 The system supports two deployment stages:
 
-- **dev**: Development environment for testing and iteration
-- **prod**: Production environment for end users
+-   **dev**: Development environment for testing and iteration
+-   **prod**: Production environment for end users
 
 Both stages deploy to AWS (us-west-2 region) but to different AWS accounts, enforced by account ID validation in the SST configuration.
 
 ### Domain Structure
 
-- **prod**: Uses the primary apex domain directly
-- **dev**: Uses a subdomain-prefixed structure (e.g., `dev.example.com`)
+-   **prod**: Uses the primary apex domain directly
+-   **dev**: Uses a subdomain-prefixed structure (e.g., `dev.example.com`)
 
 This allows multiple instances of the dev environment to coexist alongside production.
 
@@ -33,9 +33,10 @@ This allows multiple instances of the dev environment to coexist alongside produ
 Deployment is managed by SST (Serverless Stack) 3.17.14, which automatically provisions and configures AWS resources. The infrastructure definition is in `packages/infrastructure/` and is controlled by `sst.config.ts` at the repository root.
 
 The system consists of three major infrastructure components:
-- **Storage** (`packages/infrastructure/components/storage.ts`): DynamoDB table keyed by todo list ID
-- **API** (`packages/infrastructure/components/api.ts`): API Gateway V2 for backend endpoints
-- **Web App** (`packages/infrastructure/components/webApp.ts`): S3-backed static site for the frontend
+
+-   **Storage** (`packages/infrastructure/components/storage.ts`): DynamoDB table keyed by todo list ID
+-   **API** (`packages/infrastructure/components/api.ts`): API Gateway V2 for backend endpoints
+-   **Web App** (`packages/infrastructure/components/webApp.ts`): S3-backed static site for the frontend
 
 ## Deployment Command
 
