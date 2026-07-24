@@ -13,5 +13,3 @@ If it describes a technology pattern, consult [tech/](tech/overview.md) to see i
 ## Platform Type
 
 A web application consisting of a static frontend and serverless backend, deployed to AWS.
-
-It runs on managed cloud services without dedicated infrastructure: both the API and web app scale automatically with demand, and AWS handles deployment, scaling, and infrastructure management rather than custom operations.
