@@ -12,15 +12,22 @@ If it is a term definition rather than an entity with attributes and relationshi
 
 ## Todo List
 
-A todo list is a collection of tasks identified by a unique ID. Each list is independent and can be retrieved or updated via the API.
+A todo list is a collection of tasks identified by a unique ID. Each list is independent and can be retrieved or updated via the API. Lists can optionally be password-protected.
 
-**Attributes:**
+**Attributes (API Response):**
 
 -   `id` (string, required): Unique identifier for the todo list
 -   `list` (array of TodoListItem, required): The items in the todo list
+-   `isProtected` (boolean, required): Whether the list is password-protected
+
+**Attributes (API Request):**
+
+-   `id` (string, required): Unique identifier for the todo list
+-   `list` (array of TodoListItem, required): The items in the todo list
+-   `password` (string, optional): To set a new password, change an existing password, or remove protection (pass `null`). Omit this field to leave password protection unchanged.
 
 **Storage:**
-Todo lists are stored in DynamoDB in the "Todos" table, keyed by ID for efficient lookup and update of individual lists.
+Todo lists are stored in DynamoDB in the "Todos" table, keyed by ID for efficient lookup and update of individual lists. When a list is password-protected, the table also stores a `passwordHash` field containing the scrypt-hashed password with salt.
 
 ## Todo List Item
 

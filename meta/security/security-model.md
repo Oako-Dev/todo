@@ -17,11 +17,11 @@ If it describes a regulatory compliance requirement rather than a security mecha
 
 ## Authentication and Authorization
 
-**Authentication:** The system has no user authentication layer. Callers are not verified against any identity system, and no credentials are issued or validated.
+**Authentication:** The system has no user authentication layer for list ownership. However, individual todo lists can optionally require a password for access. When a list is password-protected, the password is verified using timing-safe comparison of scrypt-hashed values. The password is supplied via the `X-Todo-Password` header on each request to the protected list.
 
-**Authorization:** Access control is based on knowledge of the list ID. Anyone who knows a 16-character list ID can read and modify that list via the API (`GET /todos/{id}` and `PUT /todos/{id}` endpoints). There are no permission checks, user roles, or access control lists.
+**Authorization:** Access control is based on knowledge of the list ID. Anyone who knows a 16-character list ID can read and modify that list via the API (`GET /todos/{id}` and `PUT /todos/{id}` endpoints), unless the list is password-protected. If a list is password-protected, requests without a valid password receive a 401 response. There are no user roles or access control lists.
 
-**Design Rationale:** This is an intentional design choice to support shareable links as the primary access model. Todo lists are identified only by their ID and have no ownership metadata. A list is accessed by anyone with its ID — similar to an unlisted document shared via a direct link. This model sacrifices user-level access control for simplicity and immediate shareability.
+**Design Rationale:** This is an intentional design choice to support shareable links as the primary access model. Todo lists are identified only by their ID and have no ownership metadata. A list is accessed by anyone with its ID — similar to an unlisted document shared via a direct link. Password protection is optional, allowing users to add a layer of access control without requiring account creation or user authentication. This model sacrifices full user-level access control for simplicity and immediate shareability.
 
 **Implications:**
 
@@ -57,4 +57,8 @@ Because all API requests cross a trust boundary from untrusted clients, input va
 
 **At Rest:** Data stored in DynamoDB is encrypted by default using AWS-managed encryption keys. No additional application-layer encryption is applied.
 
-**No Sensitive Data:** The system is designed for ephemeral, user-created task lists with no authentication. There is no sensitive personal data (PII), payment information, or authentication credentials stored in the database.
+**Password Storage:** List passwords are never stored in plaintext. When a password is set on a list, it is hashed using scrypt (with a random 16-byte salt) before storage in DynamoDB. Verification uses timing-safe comparison to prevent timing attacks. The password hash is never returned to clients; instead, responses include an `isProtected` boolean flag.
+
+**Client-Side Password Storage:** When a user enters a password to unlock a list, the web app stores the plaintext password in browser session storage (per list) to avoid re-prompting within the same session. This storage is cleared if the wrong password is entered. Users should treat list passwords as low-security credentials suitable only for casual sharing restrictions.
+
+**No Sensitive Data:** The system is designed for ephemeral, user-created task lists. There is no sensitive personal data (PII), payment information, or authentication credentials stored in the database. List passwords are user-chosen and not tied to any identity system.

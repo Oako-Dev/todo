@@ -18,7 +18,7 @@ If it defines what a core entity means in terms of its relationships or storage,
 CSS custom properties (variables) that define the visual language of the application: colors, spacing, typography, shadows, and radii. Tokens are semantic (e.g., `--color-accent`) rather than literal (e.g., `--color-blue-600`), allowing consistent theming and future redesigns. Defined in `packages/web-app/src/styles/tokens.css` and used throughout components via Tailwind utility classes and direct variable references.
 
 **Todo List**
-A named collection of tasks. In this system, each todo list is identified by a unique 16-character string (the list ID) and contains an ordered array of todo list items. Lists are ephemeral — they have no user authentication or ownership; anyone with the ID can view and modify a list. See [data-model](architecture/data-model/overview.md) for entity details.
+A named collection of tasks. In this system, each todo list is identified by a unique 16-character string (the list ID) and contains an ordered array of todo list items. Lists are ephemeral and shareable by default — anyone with the ID can view and modify a list. Optionally, a list can be password-protected to require authentication for both reads and writes. See [data-model](architecture/data-model/overview.md) for entity details.
 
 **Todo List Item**
 A single task within a todo list. Each item has text content describing the task and a boolean flag indicating completion status. Items have no separate identity — they are identified only by their position within the list. Updating any item requires updating the entire list.

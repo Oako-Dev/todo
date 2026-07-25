@@ -111,10 +111,10 @@
         "description": "TypeScript compiler configuration for Node.js 20 with ES2022 target and ESNext module format."
     },
     "packages/api/src/getTodoList.ts": {
-        "description": "Lambda handler for the GET /todos/{id} endpoint that retrieves a todo list from DynamoDB by ID, returning 400 if ID is missing or 404 if not found."
+        "description": "Lambda handler for the GET /todos/{id} endpoint that retrieves a todo list from DynamoDB by ID, checking password protection, returning 400 if ID is missing, 401 if password is required or incorrect, or 404 if not found."
     },
     "packages/api/src/putTodoList.ts": {
-        "description": "Lambda handler for the PUT /todos/{id} endpoint that stores or updates a todo list in DynamoDB, validating the presence of ID and request body."
+        "description": "Lambda handler for the PUT /todos/{id} endpoint that stores or updates a todo list in DynamoDB, validating ID and body, handling optional password protection (set, change, or remove), and returning 401 if password is required or incorrect."
     },
     "packages/web-app/package.json": {
         "description": "Dependencies for the React web app including React 18, React Router 7, Vite 5 build tool, TailwindCSS, and TypeScript."
@@ -138,7 +138,7 @@
         "description": "React application entry point with BrowserRouter and route configuration for home and todo list editor pages."
     },
     "packages/web-app/src/App.tsx": {
-        "description": "Todo list editor component with CRUD operations (add, toggle, delete items) and optimistic UI updates with rollback on error."
+        "description": "Todo list editor component with CRUD operations (add, toggle, delete items), password protection handling (prompts for unlocking, UI to set/change/remove password), and optimistic UI updates with rollback on error."
     },
     "packages/web-app/src/Home.tsx": {
         "description": "Landing page component with marketing copy, todo list preview illustration, and button to create a new list."
@@ -175,5 +175,11 @@
     },
     "packages/": {
         "description": "Modular application codebase split into infrastructure-as-code, serverless backend API, and React web frontend."
+    },
+    "packages/api/src/password.ts": {
+        "description": "Utility module for password hashing and verification using scrypt with random salt and timing-safe comparison."
+    },
+    "packages/web-app/src/passwordStore.ts": {
+        "description": "Session storage utility for persisting and managing per-list passwords with get, set, and clear operations"
     }
 }
