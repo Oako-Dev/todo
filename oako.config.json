@@ -1,4 +1,5 @@
 {
+    "dosDir": "meta",
     "exclude": [
         "packages/sdk/",
         "!packages/sdk/spec.json",
